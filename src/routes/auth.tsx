@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -40,18 +40,13 @@ const HOME: Record<string, AreaPath> = {
 function AuthPage() {
   const perfil = Route.useSearch().perfil;
   const navigate = useNavigate();
-  const { identity, refresh, session } = useAuth();
+  const { identity, refresh, session, loading } = useAuth();
   const [mode, setMode] = useState<"login" | "cadastro">("login");
   const [role, setRole] = useState<"candidato" | "empresa">(perfil);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [busy, setBusy] = useState<string | null>(null);
-
-  useEffect(() => {
-    const home = identity ? HOME[identity.role] : undefined;
-    if (session && home) void navigate({ to: home });
-  }, [session, identity, navigate]);
 
   const finish = async () => {
     await refresh();
@@ -127,130 +122,179 @@ function AuthPage() {
     }
   };
 
+  if (loading) {
   return (
-    <div className="min-h-screen bg-sand-light">
-      <div className="mx-auto grid min-h-screen w-full max-w-5xl items-center gap-12 px-5 py-12 sm:px-8 lg:grid-cols-[0.9fr_1.1fr]">
-        <div>
-          <Link to="/">
-            <Logo size={48} />
-          </Link>
-          <div className="mt-4">
-            <BackButton to="/" label="Voltar" />
-          </div>
-          <h1 className="text-display mt-10 text-3xl sm:text-4xl">
-            {mode === "login" ? "Bem-vindo de volta." : "Crie sua conta."}
-          </h1>
-          <p className="mt-3 max-w-sm text-sm text-muted-foreground">
-            Entendemos o trabalho. Encontramos o talento. Você decide.
-          </p>
-        </div>
+    <div className="flex min-h-screen items-center justify-center bg-sand-light">
+      <Loader2 className="size-6 animate-spin" />
+    </div>
+  );
+}
 
-        <div className="surface-card p-6 sm:p-8">
-          <div className="flex gap-1 rounded-lg bg-secondary p-1">
-            {(["login", "cadastro"] as const).map((item) => (
-              <button
-                key={item}
-                type="button"
-                onClick={() => setMode(item)}
-                className={
-                  mode === item
-                    ? "flex-1 rounded-md bg-card px-3 py-2 text-sm font-medium text-primary shadow-sm"
-                    : "flex-1 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
-                }
-              >
-                {item === "login" ? "Entrar" : "Cadastrar"}
-              </button>
-            ))}
-          </div>
-
-          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-            {mode === "cadastro" ? (
-              <>
-                <div className="flex gap-2">
-                  {(["candidato", "empresa"] as const).map((item) => (
-                    <button
-                      key={item}
-                      type="button"
-                      onClick={() => setRole(item)}
-                      className={
-                        role === item
-                          ? "flex-1 rounded-lg border border-primary bg-accent px-3 py-2 text-sm font-medium text-primary"
-                          : "flex-1 rounded-lg border border-border px-3 py-2 text-sm text-muted-foreground hover:border-primary/40"
-                      }
-                    >
-                      {item === "candidato" ? "Sou candidato" : "Quero contratar"}
-                    </button>
-                  ))}
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="name">{role === "empresa" ? "Nome da empresa" : "Seu nome"}</Label>
-                  <Input
-                    id="name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                    autoComplete="name"
-                  />
-                </div>
-              </>
-            ) : null}
-            <div className="space-y-1.5">
-              <Label htmlFor="email">E-mail</Label>
-              <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                autoComplete="email"
-              />
-            </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="password">Senha</Label>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                minLength={8}
-                autoComplete={mode === "login" ? "current-password" : "new-password"}
-              />
-            </div>
-            <Button type="submit" className="w-full" disabled={busy !== null}>
-              {busy === "form" ? <Loader2 className="size-4 animate-spin" /> : null}
-              {mode === "login" ? "Entrar" : "Criar conta"}
-            </Button>
-          </form>
-
-          <div className="mt-7 border-t border-border pt-6">
-            <p className="eyebrow">Contas demo</p>
-            <div className="mt-3 grid gap-2">
-              {(
-                [
-                  ["candidato", "Entrar como candidato demo"],
-                  ["empresa", "Entrar como empresa demo"],
-                  ["especialista", "Entrar como especialista demo"],
-                ] as [DemoRole, string][]
-              ).map(([demoRole, label]) => (
-                <Button
-                  key={demoRole}
-                  variant="outline"
-                  className="justify-start"
-                  disabled={busy !== null}
-                  onClick={() => void demoLogin(demoRole)}
-                >
-                  {busy === demoRole ? <Loader2 className="size-4 animate-spin" /> : null}
-                  {label}
-                </Button>
-              ))}
-            </div>
-            <p className="mt-3 text-xs text-muted-foreground">
-              As contas demo usam dados de demonstração e são compartilhadas.
-            </p>
-          </div>
-        </div>
+if (session && identity) {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-sand-light px-5">
+      <div className="surface-card w-full max-w-md p-6 text-center sm:p-8">
+        <Logo size={48} />
+        <h1 className="mt-6 text-2xl font-semibold">
+          Você já está conectado!
+        </h1>
+        <p className="mt-3 text-sm text-muted-foreground">
+          Sua conta já está ativa. Volte ao menu principal para continuar.
+        </p>
+        <Button
+          className="mt-6 w-full"
+          onClick={() => void navigate({ to: "/" })}
+        >
+          Voltar ao menu
+        </Button>
       </div>
     </div>
   );
+}
+
+return (
+  <div className="min-h-screen bg-sand-light">
+    <div className="mx-auto grid min-h-screen w-full max-w-5xl items-center gap-12 px-5 py-12 sm:px-8 lg:grid-cols-[0.9fr_1.1fr]">
+      <div>
+        <Link to="/">
+          <Logo size={48} />
+        </Link>
+
+        <div className="mt-4">
+          <BackButton to="/" label="Voltar" />
+        </div>
+
+        <h1 className="text-display mt-10 text-3xl sm:text-4xl">
+          {mode === "login" ? "Bem-vindo de volta." : "Crie sua conta."}
+        </h1>
+
+        <p className="mt-3 max-w-sm text-sm text-muted-foreground">
+          Entendemos o trabalho. Encontramos o talento. Você decide.
+        </p>
+      </div>
+
+      <div className="surface-card p-6 sm:p-8">
+        <div className="flex gap-1 rounded-lg bg-secondary p-1">
+          {(["login", "cadastro"] as const).map((item) => (
+            <button
+              key={item}
+              type="button"
+              onClick={() => setMode(item)}
+              className={
+                mode === item
+                  ? "flex-1 rounded-md bg-card px-3 py-2 text-sm font-medium text-primary shadow-sm"
+                  : "flex-1 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+              }
+            >
+              {item === "login" ? "Entrar" : "Cadastrar"}
+            </button>
+          ))}
+        </div>
+
+        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+          {mode === "cadastro" ? (
+            <>
+              <div className="flex gap-2">
+                {(["candidato", "empresa"] as const).map((item) => (
+                  <button
+                    key={item}
+                    type="button"
+                    onClick={() => setRole(item)}
+                    className={
+                      role === item
+                        ? "flex-1 rounded-lg border border-primary bg-accent px-3 py-2 text-sm font-medium text-primary"
+                        : "flex-1 rounded-lg border border-border px-3 py-2 text-sm text-muted-foreground hover:border-primary/40"
+                    }
+                  >
+                    {item === "candidato" ? "Sou candidato" : "Quero contratar"}
+                  </button>
+                ))}
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="name">
+                  {role === "empresa" ? "Nome da empresa" : "Seu nome"}
+                </Label>
+                <Input
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  autoComplete="name"
+                />
+              </div>
+            </>
+          ) : null}
+
+          <div className="space-y-1.5">
+            <Label htmlFor="email">E-mail</Label>
+            <Input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <Label htmlFor="password">Senha</Label>
+            <Input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength={8}
+              autoComplete={mode === "login" ? "current-password" : "new-password"}
+            />
+          </div>
+
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={busy !== null}
+          >
+            {busy === "form" ? (
+              <Loader2 className="size-4 animate-spin" />
+            ) : null}
+            {mode === "login" ? "Entrar" : "Criar conta"}
+          </Button>
+        </form>
+
+        <div className="mt-7 border-t border-border pt-6">
+          <p className="eyebrow">Contas demo</p>
+
+          <div className="mt-3 grid gap-2">
+            {(
+              [
+                ["candidato", "Entrar como candidato demo"],
+                ["empresa", "Entrar como empresa demo"],
+                ["especialista", "Entrar como especialista demo"],
+              ] as [DemoRole, string][]
+            ).map(([demoRole, label]) => (
+              <Button
+                key={demoRole}
+                variant="outline"
+                className="justify-start"
+                disabled={busy !== null}
+                onClick={() => void demoLogin(demoRole)}
+              >
+                {busy === demoRole ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : null}
+                {label}
+              </Button>
+            ))}
+          </div>
+
+          <p className="mt-3 text-xs text-muted-foreground">
+            As contas demo usam dados de demonstração e são compartilhadas.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+);
 }
