@@ -12,7 +12,7 @@ export type DemoRole = keyof typeof DEMO_ACCOUNTS;
 
 /** Garante que a conta demo exista no login (senha fixa, e-mail confirmado). */
 export const ensureDemoAccount = createServerFn({ method: "POST" })
-  .inputValidator((data: { role: DemoRole }) => {
+  .validator((data: { role: DemoRole }) => {
     if (!data || !(data.role in DEMO_ACCOUNTS)) throw new Error("Perfil demo inválido");
     return data;
   })
