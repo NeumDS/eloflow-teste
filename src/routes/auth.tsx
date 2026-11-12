@@ -141,8 +141,11 @@ if (session && identity) {
         <p className="mt-3 text-sm text-muted-foreground">
           Sua conta já está ativa. Volte ao menu principal para continuar.
         </p>
-        <Button asChild className="mt-6 w-full">
-  <Link to="/candidato">
+        <Button
+  asChild
+  className="mt-6 w-full"
+>
+  <Link to={HOME[identity.role] ?? "/candidato"}>
     Voltar ao menu
   </Link>
 </Button>
