@@ -141,12 +141,11 @@ if (session && identity) {
         <p className="mt-3 text-sm text-muted-foreground">
           Sua conta já está ativa. Volte ao menu principal para continuar.
         </p>
-        <Button
-          className="mt-6 w-full"
-          onClick={() => void navigate({ to: "/" })}
-        >
-          Voltar ao menu
-        </Button>
+        <Button asChild className="mt-6 w-full">
+  <Link to="/">
+    Voltar ao menu
+  </Link>
+</Button>
       </div>
     </div>
   );

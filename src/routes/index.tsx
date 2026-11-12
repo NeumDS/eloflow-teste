@@ -12,7 +12,7 @@ export const Route = createFileRoute("/")({
         content:
           "Uma nova forma de conectar empresas e talentos baseada em competências, projetos e capacidade demonstrada.",
       },
-      { property: "og:title", content: "EloFlow — Encontre quem consegue fazer" },
+      { property: "og:taitle", content: "EloFlow — Encontre quem consegue fazer" },
       {
         property: "og:description",
         content: "Entendemos o trabalho. Encontramos o talento. Você decide.",
