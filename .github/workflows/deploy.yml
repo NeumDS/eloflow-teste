@@ -1,5 +1,5 @@
 
-name: Deploy EloFlow
+name: Deploy eloflow-test
 
 on:
   push:
@@ -37,7 +37,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: .output/public
 
   deploy:
     environment:
