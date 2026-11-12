@@ -142,7 +142,7 @@ if (session && identity) {
           Sua conta já está ativa. Volte ao menu principal para continuar.
         </p>
         <Button asChild className="mt-6 w-full">
-  <Link to="/">
+  <Link to="/para-candidatos">
     Voltar ao menu
   </Link>
 </Button>
