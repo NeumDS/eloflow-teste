@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import logo from "@/assets/eloflow-logo.jpeg.asset.json";
 import { cn } from "@/lib/utils";
 
 export function Logo({
@@ -14,7 +13,7 @@ export function Logo({
   return (
     <span className={cn("inline-flex items-center gap-2.5", className)}>
       <img
-        src={logo.url}
+        src="/favicon.png"
         alt="EloFlow"
         width={size}
         height={size}
