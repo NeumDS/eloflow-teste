@@ -21,6 +21,7 @@ import { Route as AuthenticatedCandidatoAvaliacoesRouteImport } from './routes/_
 import { Route as AuthenticatedCandidatoCandidaturasRouteImport } from './routes/_authenticated/candidato.candidaturas'
 import { Route as AuthenticatedCandidatoCurriculoRouteImport } from './routes/_authenticated/candidato.curriculo'
 import { Route as AuthenticatedCandidatoDesafiosRouteImport } from './routes/_authenticated/candidato.desafios'
+import { Route as AuthenticatedCandidatoFeedRouteImport } from './routes/_authenticated/candidato.feed'
 import { Route as AuthenticatedCandidatoGithubRouteImport } from './routes/_authenticated/candidato.github'
 import { Route as AuthenticatedCandidatoOportunidadesRouteImport } from './routes/_authenticated/candidato.oportunidades'
 import { Route as AuthenticatedCandidatoPerfilRouteImport } from './routes/_authenticated/candidato.perfil'
@@ -32,6 +33,7 @@ import { Route as AuthenticatedEmpresaCandidatosRouteImport } from './routes/_au
 import { Route as AuthenticatedEmpresaConfiguracoesRouteImport } from './routes/_authenticated/empresa.configuracoes'
 import { Route as AuthenticatedEmpresaContratacoesRouteImport } from './routes/_authenticated/empresa.contratacoes'
 import { Route as AuthenticatedEmpresaDesafiosRouteImport } from './routes/_authenticated/empresa.desafios'
+import { Route as AuthenticatedEmpresaFeedRouteImport } from './routes/_authenticated/empresa.feed'
 import { Route as AuthenticatedEmpresaPlusRouteImport } from './routes/_authenticated/empresa.plus'
 import { Route as AuthenticatedEmpresaValidacaoRouteImport } from './routes/_authenticated/empresa.validacao'
 import { Route as AuthenticatedEspecialistaIndexRouteImport } from './routes/_authenticated/especialista.index'
@@ -115,6 +117,12 @@ const AuthenticatedCandidatoDesafiosRoute =
     path: '/candidato/desafios',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedCandidatoFeedRoute =
+  AuthenticatedCandidatoFeedRouteImport.update({
+    id: '/candidato/feed',
+    path: '/candidato/feed',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedCandidatoGithubRoute =
   AuthenticatedCandidatoGithubRouteImport.update({
     id: '/candidato/github',
@@ -179,6 +187,12 @@ const AuthenticatedEmpresaDesafiosRoute =
   AuthenticatedEmpresaDesafiosRouteImport.update({
     id: '/empresa/desafios',
     path: '/empresa/desafios',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEmpresaFeedRoute =
+  AuthenticatedEmpresaFeedRouteImport.update({
+    id: '/empresa/feed',
+    path: '/empresa/feed',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedEmpresaPlusRoute =
@@ -301,6 +315,7 @@ export interface FileRoutesByFullPath {
   '/candidato/candidaturas': typeof AuthenticatedCandidatoCandidaturasRoute
   '/candidato/curriculo': typeof AuthenticatedCandidatoCurriculoRoute
   '/candidato/desafios': typeof AuthenticatedCandidatoDesafiosRoute
+  '/candidato/feed': typeof AuthenticatedCandidatoFeedRoute
   '/candidato/github': typeof AuthenticatedCandidatoGithubRoute
   '/candidato/oportunidades': typeof AuthenticatedCandidatoOportunidadesRoute
   '/candidato/perfil': typeof AuthenticatedCandidatoPerfilRoute
@@ -311,6 +326,7 @@ export interface FileRoutesByFullPath {
   '/empresa/configuracoes': typeof AuthenticatedEmpresaConfiguracoesRoute
   '/empresa/contratacoes': typeof AuthenticatedEmpresaContratacoesRoute
   '/empresa/desafios': typeof AuthenticatedEmpresaDesafiosRoute
+  '/empresa/feed': typeof AuthenticatedEmpresaFeedRoute
   '/empresa/plus': typeof AuthenticatedEmpresaPlusRoute
   '/empresa/validacao': typeof AuthenticatedEmpresaValidacaoRoute
   '/especialista/agenda': typeof AuthenticatedEspecialistaAgendaRoute
@@ -343,6 +359,7 @@ export interface FileRoutesByTo {
   '/candidato/candidaturas': typeof AuthenticatedCandidatoCandidaturasRoute
   '/candidato/curriculo': typeof AuthenticatedCandidatoCurriculoRoute
   '/candidato/desafios': typeof AuthenticatedCandidatoDesafiosRoute
+  '/candidato/feed': typeof AuthenticatedCandidatoFeedRoute
   '/candidato/github': typeof AuthenticatedCandidatoGithubRoute
   '/candidato/oportunidades': typeof AuthenticatedCandidatoOportunidadesRoute
   '/candidato/perfil': typeof AuthenticatedCandidatoPerfilRoute
@@ -353,6 +370,7 @@ export interface FileRoutesByTo {
   '/empresa/configuracoes': typeof AuthenticatedEmpresaConfiguracoesRoute
   '/empresa/contratacoes': typeof AuthenticatedEmpresaContratacoesRoute
   '/empresa/desafios': typeof AuthenticatedEmpresaDesafiosRoute
+  '/empresa/feed': typeof AuthenticatedEmpresaFeedRoute
   '/empresa/plus': typeof AuthenticatedEmpresaPlusRoute
   '/empresa/validacao': typeof AuthenticatedEmpresaValidacaoRoute
   '/especialista/agenda': typeof AuthenticatedEspecialistaAgendaRoute
@@ -387,6 +405,7 @@ export interface FileRoutesById {
   '/_authenticated/candidato/candidaturas': typeof AuthenticatedCandidatoCandidaturasRoute
   '/_authenticated/candidato/curriculo': typeof AuthenticatedCandidatoCurriculoRoute
   '/_authenticated/candidato/desafios': typeof AuthenticatedCandidatoDesafiosRoute
+  '/_authenticated/candidato/feed': typeof AuthenticatedCandidatoFeedRoute
   '/_authenticated/candidato/github': typeof AuthenticatedCandidatoGithubRoute
   '/_authenticated/candidato/oportunidades': typeof AuthenticatedCandidatoOportunidadesRoute
   '/_authenticated/candidato/perfil': typeof AuthenticatedCandidatoPerfilRoute
@@ -397,6 +416,7 @@ export interface FileRoutesById {
   '/_authenticated/empresa/configuracoes': typeof AuthenticatedEmpresaConfiguracoesRoute
   '/_authenticated/empresa/contratacoes': typeof AuthenticatedEmpresaContratacoesRoute
   '/_authenticated/empresa/desafios': typeof AuthenticatedEmpresaDesafiosRoute
+  '/_authenticated/empresa/feed': typeof AuthenticatedEmpresaFeedRoute
   '/_authenticated/empresa/plus': typeof AuthenticatedEmpresaPlusRoute
   '/_authenticated/empresa/validacao': typeof AuthenticatedEmpresaValidacaoRoute
   '/_authenticated/especialista/agenda': typeof AuthenticatedEspecialistaAgendaRoute
@@ -431,6 +451,7 @@ export interface FileRouteTypes {
     | '/candidato/candidaturas'
     | '/candidato/curriculo'
     | '/candidato/desafios'
+    | '/candidato/feed'
     | '/candidato/github'
     | '/candidato/oportunidades'
     | '/candidato/perfil'
@@ -441,6 +462,7 @@ export interface FileRouteTypes {
     | '/empresa/configuracoes'
     | '/empresa/contratacoes'
     | '/empresa/desafios'
+    | '/empresa/feed'
     | '/empresa/plus'
     | '/empresa/validacao'
     | '/especialista/agenda'
@@ -473,6 +495,7 @@ export interface FileRouteTypes {
     | '/candidato/candidaturas'
     | '/candidato/curriculo'
     | '/candidato/desafios'
+    | '/candidato/feed'
     | '/candidato/github'
     | '/candidato/oportunidades'
     | '/candidato/perfil'
@@ -483,6 +506,7 @@ export interface FileRouteTypes {
     | '/empresa/configuracoes'
     | '/empresa/contratacoes'
     | '/empresa/desafios'
+    | '/empresa/feed'
     | '/empresa/plus'
     | '/empresa/validacao'
     | '/especialista/agenda'
@@ -516,6 +540,7 @@ export interface FileRouteTypes {
     | '/_authenticated/candidato/candidaturas'
     | '/_authenticated/candidato/curriculo'
     | '/_authenticated/candidato/desafios'
+    | '/_authenticated/candidato/feed'
     | '/_authenticated/candidato/github'
     | '/_authenticated/candidato/oportunidades'
     | '/_authenticated/candidato/perfil'
@@ -526,6 +551,7 @@ export interface FileRouteTypes {
     | '/_authenticated/empresa/configuracoes'
     | '/_authenticated/empresa/contratacoes'
     | '/_authenticated/empresa/desafios'
+    | '/_authenticated/empresa/feed'
     | '/_authenticated/empresa/plus'
     | '/_authenticated/empresa/validacao'
     | '/_authenticated/especialista/agenda'
@@ -644,6 +670,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCandidatoDesafiosRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/candidato/feed': {
+      id: '/_authenticated/candidato/feed'
+      path: '/candidato/feed'
+      fullPath: '/candidato/feed'
+      preLoaderRoute: typeof AuthenticatedCandidatoFeedRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/candidato/github': {
       id: '/_authenticated/candidato/github'
       path: '/candidato/github'
@@ -719,6 +752,13 @@ declare module '@tanstack/react-router' {
       path: '/empresa/desafios'
       fullPath: '/empresa/desafios'
       preLoaderRoute: typeof AuthenticatedEmpresaDesafiosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/empresa/feed': {
+      id: '/_authenticated/empresa/feed'
+      path: '/empresa/feed'
+      fullPath: '/empresa/feed'
+      preLoaderRoute: typeof AuthenticatedEmpresaFeedRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/empresa/plus': {
@@ -855,6 +895,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedCandidatoCandidaturasRoute: typeof AuthenticatedCandidatoCandidaturasRoute
   AuthenticatedCandidatoCurriculoRoute: typeof AuthenticatedCandidatoCurriculoRoute
   AuthenticatedCandidatoDesafiosRoute: typeof AuthenticatedCandidatoDesafiosRoute
+  AuthenticatedCandidatoFeedRoute: typeof AuthenticatedCandidatoFeedRoute
   AuthenticatedCandidatoGithubRoute: typeof AuthenticatedCandidatoGithubRoute
   AuthenticatedCandidatoOportunidadesRoute: typeof AuthenticatedCandidatoOportunidadesRoute
   AuthenticatedCandidatoPerfilRoute: typeof AuthenticatedCandidatoPerfilRoute
@@ -865,6 +906,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedEmpresaConfiguracoesRoute: typeof AuthenticatedEmpresaConfiguracoesRoute
   AuthenticatedEmpresaContratacoesRoute: typeof AuthenticatedEmpresaContratacoesRoute
   AuthenticatedEmpresaDesafiosRoute: typeof AuthenticatedEmpresaDesafiosRoute
+  AuthenticatedEmpresaFeedRoute: typeof AuthenticatedEmpresaFeedRoute
   AuthenticatedEmpresaPlusRoute: typeof AuthenticatedEmpresaPlusRoute
   AuthenticatedEmpresaValidacaoRoute: typeof AuthenticatedEmpresaValidacaoRoute
   AuthenticatedEspecialistaAgendaRoute: typeof AuthenticatedEspecialistaAgendaRoute
@@ -893,6 +935,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
     AuthenticatedCandidatoCandidaturasRoute,
   AuthenticatedCandidatoCurriculoRoute: AuthenticatedCandidatoCurriculoRoute,
   AuthenticatedCandidatoDesafiosRoute: AuthenticatedCandidatoDesafiosRoute,
+  AuthenticatedCandidatoFeedRoute: AuthenticatedCandidatoFeedRoute,
   AuthenticatedCandidatoGithubRoute: AuthenticatedCandidatoGithubRoute,
   AuthenticatedCandidatoOportunidadesRoute:
     AuthenticatedCandidatoOportunidadesRoute,
@@ -905,6 +948,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
     AuthenticatedEmpresaConfiguracoesRoute,
   AuthenticatedEmpresaContratacoesRoute: AuthenticatedEmpresaContratacoesRoute,
   AuthenticatedEmpresaDesafiosRoute: AuthenticatedEmpresaDesafiosRoute,
+  AuthenticatedEmpresaFeedRoute: AuthenticatedEmpresaFeedRoute,
   AuthenticatedEmpresaPlusRoute: AuthenticatedEmpresaPlusRoute,
   AuthenticatedEmpresaValidacaoRoute: AuthenticatedEmpresaValidacaoRoute,
   AuthenticatedEspecialistaAgendaRoute: AuthenticatedEspecialistaAgendaRoute,

@@ -1,3 +1,4 @@
+
 import { Link, useRouter } from "@tanstack/react-router";
 import { LogOut, Menu } from "lucide-react";
 import { useState, type ReactNode } from "react";
@@ -11,6 +12,7 @@ export type NavItem = { to: string; label: string; routes: string[] };
 const NAV: Record<Role, NavItem[]> = {
   candidato: [
     { to: "/candidato", label: "Início", routes: ["/candidato"] },
+    { to: "/candidato/feed", label: "Feed", routes: ["/candidato/feed"] },
     {
       to: "/candidato/perfil",
       label: "Meu perfil",
@@ -26,6 +28,7 @@ const NAV: Record<Role, NavItem[]> = {
   ],
   empresa: [
     { to: "/empresa", label: "Início", routes: ["/empresa"] },
+    { to: "/empresa/feed", label: "Feed", routes: ["/empresa/feed"] },
     {
       to: "/empresa/contratacoes",
       label: "Contratações",
@@ -112,10 +115,13 @@ export function AppShell({ children }: { children: ReactNode }) {
           <Link to="/">
             <Logo />
           </Link>
+
           <p className="eyebrow mt-8">{AREA_LABEL[role]}</p>
+
           <nav className="mt-3 flex flex-col gap-0.5">
             {items.map((item) => {
               const active = isGroupActive(pathname, item.routes);
+
               return (
                 <Link
                   key={item.to}
@@ -132,9 +138,15 @@ export function AppShell({ children }: { children: ReactNode }) {
               );
             })}
           </nav>
+
           <div className="mt-auto border-t border-border pt-4">
-            <p className="truncate text-sm font-medium">{identity?.name ?? "—"}</p>
-            <p className="truncate text-xs text-muted-foreground">{identity?.email}</p>
+            <p className="truncate text-sm font-medium">
+              {identity?.name ?? "—"}
+            </p>
+            <p className="truncate text-xs text-muted-foreground">
+              {identity?.email}
+            </p>
+
             <Button
               variant="ghost"
               size="sm"
@@ -152,15 +164,22 @@ export function AppShell({ children }: { children: ReactNode }) {
         <div className="min-w-0 flex-1">
           <header className="flex items-center justify-between border-b border-border bg-background/80 px-5 py-3 backdrop-blur lg:hidden">
             <Logo size={32} />
-            <Button variant="ghost" size="icon" onClick={() => setOpen((v) => !v)}>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setOpen((v) => !v)}
+            >
               <Menu className="size-4" />
               <span className="sr-only">Menu</span>
             </Button>
           </header>
+
           {open ? (
             <nav className="flex flex-col gap-0.5 border-b border-border bg-sand px-4 py-3 lg:hidden">
               {items.map((item) => {
                 const active = isGroupActive(pathname, item.routes);
+
                 return (
                   <Link
                     key={item.to}
@@ -175,6 +194,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                   </Link>
                 );
               })}
+
               <Button
                 variant="ghost"
                 size="sm"
@@ -188,6 +208,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               </Button>
             </nav>
           ) : null}
+
           <main
             className={cn(
               "mx-auto w-full max-w-5xl px-5 py-8 sm:px-8 sm:py-12",
